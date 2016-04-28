@@ -1,10 +1,11 @@
-package Task_1;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by MikhailKovalenko on 14.04.16.
@@ -13,7 +14,21 @@ public class TestServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
-        resp.getWriter().write("<html>\n" +
+        Map<String, Object> data = Collections.emptyMap();
+        TemplateUtil.render("page1.vsl", data, resp.getWriter());
+    }
+
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String name = req.getParameter("name");
+        resp.setCharacterEncoding("UTF-8");
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("userName", name);
+        TemplateUtil.render("page2.vsl", data, resp.getWriter());
+    }
+
+
+
+        /*resp.getWriter().write("<html>\n" +
                 "<head>\n" +
                 "    <body>\n" +
                 "    <form>\n" +
@@ -22,6 +37,5 @@ public class TestServlet extends HttpServlet{
                 "    </form>\n" +
                 "    </body>\n" +
                 "</head>\n" +
-                "</html>");
-    }
+                "</html>"); */
 }

@@ -1,0 +1,17 @@
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <form method="post">
+    Новая задача: <input name="newTask">
+            <input type="submit" value="Добавить">
+    </form>
+<ol>
+    #foreach(${task} in ${allTasks})
+    <il>${task}</il>
+    #end
+</ol>
+
+</body>
+</html>
