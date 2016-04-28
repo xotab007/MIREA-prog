@@ -44,6 +44,14 @@ public class TodoServlet extends HttpServlet{
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String newTask=req.getParameter("newTask");
+        try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test")) {
+            try (PreparedStatement st = conn.prepareStatement ("INSERT INTO TODO (TEXT) VALUES (?)")){
+                st.setString(1, newTask);
+                st.execute();
+            }
+        } catch (SQLException e) {
+            throw new ServletException(e);
+        }
   //      tasks.add(newTask);
         outputList(resp);
     }
