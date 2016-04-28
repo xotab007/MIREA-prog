@@ -27,6 +27,8 @@ public class TodoServlet extends HttpServlet{
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String newTask=req.getParameter("newTask");
+        tasks.add(newTask);
         outputList(resp);
     }
 }

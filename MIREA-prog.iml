@@ -8,5 +8,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="org.eclipse.jetty:jetty-servlet:9.3.9.M1" level="project" />
+    <orderEntry type="library" name="org.apache.velocity:velocity:1.7" level="project" />
+    <orderEntry type="library" name="oro:oro:2.0.8" level="project" />
+    <orderEntry type="library" name="com.h2database:h2:1.4.191" level="project" />
   </component>
 </module>
