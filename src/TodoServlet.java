@@ -11,11 +11,11 @@ import java.util.Map;
 /**
  * Created by MikhailKovalenko on 14.04.16.
  */
-public class TodoServlet extends HttpServlet{
+public class TodoServlet extends HttpServlet {
 
 //    private ArrayList<String> tasks = new ArrayList<>();
 
-    private  void  outputList(HttpServletResponse resp) throws IOException, ServletException {
+    private void outputList(HttpServletResponse resp) throws IOException, ServletException {
         ArrayList<TodoItem> tasks = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test")) {
             try (PreparedStatement st = conn.prepareStatement("SELECT ID, TEXT FROM TODO ORDER BY ID DESC")) {
@@ -31,7 +31,7 @@ public class TodoServlet extends HttpServlet{
             throw new ServletException(e);
         }
         resp.setCharacterEncoding("UTF-8");
-        Map<String,Object> data = new HashMap<>();
+        Map<String, Object> data = new HashMap<>();
         data.put("allTasks", tasks);
         TemplateUtil.render("todo.vsl", data, resp.getWriter());
 
@@ -43,16 +43,24 @@ public class TodoServlet extends HttpServlet{
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String newTask=req.getParameter("newTask");
+        String newTask = req.getParameter("newTask");
+        String id = req.getParameter("id");
         try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test")) {
-            try (PreparedStatement st = conn.prepareStatement ("INSERT INTO TODO (TEXT) VALUES (?)")){
-                st.setString(1, newTask);
-                st.execute();
+            if (id != null) {
+                try (PreparedStatement st = conn.prepareStatement("DELETE FROM TODO WHERE ID = ?")) {
+                    st.setInt(1, Integer.parseInt(id));
+                    st.execute();
+                }
+            } else {
+                try (PreparedStatement st = conn.prepareStatement("INSERT INTO TODO (TEXT) VALUES (?)")) {
+                    st.setString(1, newTask);
+                    st.execute();
+                }
             }
         } catch (SQLException e) {
             throw new ServletException(e);
         }
-  //      tasks.add(newTask);
+        //      tasks.add(newTask);
         outputList(resp);
     }
 }
