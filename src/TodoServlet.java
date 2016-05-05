@@ -61,6 +61,7 @@ public class TodoServlet extends HttpServlet {
             throw new ServletException(e);
         }
         //      tasks.add(newTask);
-        outputList(resp);
+        //  outputList(resp);
+        resp.sendRedirect("/");
     }
 }
