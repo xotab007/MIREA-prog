@@ -9,7 +9,13 @@
     </form>
 <ol>
     #foreach(${task} in ${allTasks})
-    <li>${task}</li>
+    <li>
+        ${task}
+        <form action="/" method="post">
+            <input type="hidden" name="id">
+            <input type="submit" value="Завершено">
+        </form>
+    </li>
     #end
 </ol>
 

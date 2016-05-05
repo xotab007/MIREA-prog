@@ -16,14 +16,14 @@ public class TodoServlet extends HttpServlet{
 //    private ArrayList<String> tasks = new ArrayList<>();
 
     private  void  outputList(HttpServletResponse resp) throws IOException, ServletException {
-        ArrayList<String> tasks = new ArrayList<>();
+        ArrayList<TodoItem> tasks = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test")) {
             try (PreparedStatement st = conn.prepareStatement("SELECT ID, TEXT FROM TODO ORDER BY ID DESC")) {
                 try (ResultSet rs = st.executeQuery()) {
                     while (rs.next()) {
                         int id = rs.getInt(1);
                         String text = rs.getString(2);
-                        tasks.add(text);
+                        tasks.add(new TodoItem(id, text));
                     }
                 }
             }
