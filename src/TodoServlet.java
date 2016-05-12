@@ -15,12 +15,17 @@ public class TodoServlet extends HttpServlet {
 
 //    private ArrayList<String> tasks = new ArrayList<>();
 
+    // Закгрузка данных из ДБ
     private void outputList(HttpServletResponse resp) throws IOException, ServletException {
         ArrayList<TodoItem> tasks = new ArrayList<>();
+        // Адресс БД
         try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test")) {
+            // Запрос в БЖ (Читает из базу по идентификатору)
             try (PreparedStatement st = conn.prepareStatement("SELECT ID, TEXT FROM TODO ORDER BY ID DESC")) {
+                // Читает строчки таблицы
                 try (ResultSet rs = st.executeQuery()) {
                     while (rs.next()) {
+                        // Извлекает два столбца
                         int id = rs.getInt(1);
                         String text = rs.getString(2);
                         tasks.add(new TodoItem(id, text));
@@ -30,6 +35,7 @@ public class TodoServlet extends HttpServlet {
         } catch (SQLException e) {
             throw new ServletException(e);
         }
+        // Полученные данные выше вставляются в шаблон
         resp.setCharacterEncoding("UTF-8");
         Map<String, Object> data = new HashMap<>();
         data.put("allTasks", tasks);
@@ -39,7 +45,7 @@ public class TodoServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        outputList(resp);
+        outputList(resp); // обрабатывает код
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

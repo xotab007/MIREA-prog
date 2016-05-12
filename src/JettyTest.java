@@ -6,10 +6,10 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
  */
 public class JettyTest {
     public static void main(String[] args) throws Exception {
-        Server server = new Server (8080);
-        ServletContextHandler ctx = new ServletContextHandler();
-        server.setHandler(ctx);
-        ctx.addServlet(TodoServlet.class, "/");
-        server.start();
+        Server server = new Server (8080); //порт
+        ServletContextHandler ctx = new ServletContextHandler(); // запуск сервера
+        server.setHandler(ctx); // запуск сервера
+        ctx.addServlet(TodoServlet.class, "/"); // перенаправление на класс
+        server.start(); // запуск
     }
 }
